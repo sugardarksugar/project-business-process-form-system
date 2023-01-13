@@ -3,25 +3,36 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>drafts</ion-title>
+    <ion-title>Compose</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-input type="text" placeholder="Form Title"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="text" placeholder="Teammate"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="text" placeholder="Checker"></ion-input>
-    </ion-item>
-    <ion-item *ngFor="let task of tasks; index as i">
-      <ion-input type="text" placeholder="Task {{i+1}}" [(ngModel)]="task.content"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-button (click)="addTask()">Add Task</ion-button>
+  <ion-item>
+    <ion-label position="floating">Form Title</ion-label>
+    <ion-input type="text" [(ngModel)]="form.title"></ion-input>
+  </ion-item>
 
+  <ion-list>
+    <ion-list-header>
+      Fields
+    </ion-list-header>
+    <ion-reorder-group [disabled]="true" (ionItemReorder)="handleReorder($any($event))">
+      <ion-item-group *ngFor="let field of form.fields; index as i">
+        <ion-item-divider>
+          <ion-label>Field {{i+1}}</ion-label>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item-divider>
+        <ion-item>
+          <ion-label>Field Title</ion-label>
+          <ion-input value="text" placeholder="text" [(ngModel)]="field.title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Field Type</ion-label>
+          <ion-input value="text" placeholder="text" [(ngModel)]="field.type"></ion-input>
+        </ion-item>
+      </ion-item-group>
+    </ion-reorder-group>
+  </ion-list>
+  <ion-button (click)="addField()">Add Field</ion-button>
 </ion-content>

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ItemReorderEventDetail } from '@ionic/angular';
 
-interface Teammate {
-  username: string
+interface Form {
+  title: string
+  fields: Field[]
 }
 
-interface Checker {
-  username: string
-}
-
-interface Task {
-  content: string
+interface Field {
+  title: string
+  type: string
+  desc: string
 }
 
 @Component({
@@ -18,22 +18,33 @@ interface Task {
   styleUrls: ['./drafts.page.scss'],
 })
 export class DraftsPage implements OnInit {
-  // taskList: Task[] = [{ title: '' }]
 
-  tasks: Task[] = []
+  form: Form = {
+    title: '',
+    fields: []
+  }
 
-  constructor() { }
+  constructor() {
+  }
+
+  reorderForm(ev: CustomEvent<ItemReorderEventDetail>) {
+    console.log(ev);
+
+  }
+  handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    ev.detail.complete()
+  };
+
 
   ngOnInit() {
-    this.addTask()
+    this.addField()
   }
 
-  addTask() {
-    this.tasks.push({ content: '' })
+  addField() {
+    this.form.fields.push({ title: '', type: '', desc: '' })
   }
 
-  get json() {
+  get json(): string {
     return JSON.stringify(this, null, 2)
   }
-
 }
