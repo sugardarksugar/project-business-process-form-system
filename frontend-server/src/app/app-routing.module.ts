@@ -12,8 +12,16 @@ const routes: Routes = [
     loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
   },
   {
-    path: 'create/drafts',
-    loadChildren: () => import('./drafts/drafts.module').then(m => m.DraftsPageModule)
+    path: 'submit-form',
+    loadChildren: () => import('./submit-form/submit-form.module').then(m => m.SubmitFormPageModule)
+  },
+  {
+    path: 'create/form',
+    loadChildren: () => import('./create-form/create-form.module').then(m => m.CreateFormPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
 
 ];

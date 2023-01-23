@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Compose</ion-title>
+    <ion-title>Create Form</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -29,10 +29,22 @@
         </ion-item>
         <ion-item>
           <ion-label>Field Type</ion-label>
-          <ion-input value="text" placeholder="text" [(ngModel)]="field.type"></ion-input>
+          <ion-select [(ngModel)]="field.type" placeholder="Field Type">
+            <ion-select-option value="date">Date</ion-select-option>
+            <ion-select-option value="text">Text</ion-select-option>
+            <ion-select-option value="checkbox">Check Box</ion-select-option>
+            <ion-select-option value="attachment">Upload Attachment</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="removeField(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
         </ion-item>
       </ion-item-group>
     </ion-reorder-group>
   </ion-list>
   <ion-button (click)="addField()">Add Field</ion-button>
+  <ion-button (click)="saveTemplate()">Save Template</ion-button>
+  <pre><code>{{json}}</code></pre>
 </ion-content>
