@@ -1,0 +1,22 @@
+{
+  "name": "project-business-process-form-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sugardarksugar/project-business-process-form-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sugardarksugar/project-business-process-form-system/issues"
+  },
+  "homepage": "https://github.com/sugardarksugar/project-business-process-form-system#readme",
+  "dependencies": {
+    "knex": "^2.4.2"
+  }
+}
