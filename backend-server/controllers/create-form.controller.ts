@@ -7,6 +7,5 @@ export class CreateFormController {
     createForm = async (req: Request, res: Response) => {
         let values = req.body;
         console.log(values);
-
     }
 }

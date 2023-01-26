@@ -8,4 +8,4 @@ export let userService = new UserService(knex);
 
 let userController = new UserController(userService);
 
-userController.post("/login", userController.login);
+userRoutes.post("/login", userController.login);

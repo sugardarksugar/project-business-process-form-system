@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular'
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-login',
@@ -8,27 +9,22 @@ import { ToastController } from '@ionic/angular'
 })
 export class LoginPage implements OnInit {
 
+  constructor(public api: ApiService) { }
+
   email = ''
   password = ''
 
-  constructor(public toastCtrl: ToastController) { }
-
   async login() {
-    let res = await fetch('http://localhost:8100/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    await this.api.post(
+      '/login',
+      {
         email: this.email,
         password: this.password,
-      })
-    })
-    console.log({
-      username: this.email,
-      password: this.password,
-    })
+      },
+      (json: any) => {
+        console.log('login ok', json)
+      }
+    )
   }
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }

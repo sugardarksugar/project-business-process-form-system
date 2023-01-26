@@ -17,9 +17,11 @@ export interface Field {
 })
 export class CreateFormService {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private api: ApiService) { }
 
   createForm(form: Form) {
-    return this.apiService.post('/form', form)
+    return this.api.post('/form', form, (json: any) => {
+      console.log('form ok', json)
+    })
   }
 }
