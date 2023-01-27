@@ -1,19 +1,48 @@
 import { Component } from '@angular/core';
+import { ApiService } from './api.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Login', url: 'login' },
+  public guestPages = [
+    { title: 'Login', url: 'login', icon: '' },
+  ];
+  public userPages = [
     { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
     { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Create Form', url: 'create/form', icon: "document" },
+    { title: 'Submit Form', url: '/submit/form', icon: 'document' },
+    { title: 'Create Form', url: '/create/form', icon: "document" },
     { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() { }
+  public adminPages = [
+    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
+    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
+    { title: 'Create Form', url: '/create/form', icon: "document" },
+    { title: 'Create User', url: '/create/user', icon: "document" },
+    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
+    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
+  ];
+  public labels = [];
+  constructor(public api: ApiService) { }
+
+  get email() {
+    return this.api.jwtPayload?.email
+  }
+
+  get appPages() {
+    let user = this.api.jwtPayload
+    return !user ? this.guestPages
+      : user.is_admin ? this.adminPages
+        : this.userPages
+  }
+
+  logout() {
+    this.api.removeToken()
+    window.location.href = 'http://localhost:4200/login'
+  }
+
 }

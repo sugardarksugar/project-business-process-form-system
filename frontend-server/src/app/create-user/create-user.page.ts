@@ -3,11 +3,11 @@ import { ApiService } from '../api.service';
 import { UserService, User } from '../user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-create-user',
+  templateUrl: './create-user.page.html',
+  styleUrls: ['./create-user.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class CreateUserPage implements OnInit {
 
   constructor(public api: ApiService, public userService: UserService) { }
 
@@ -16,11 +16,11 @@ export class LoginPage implements OnInit {
     password: '',
   }
 
-  login() {
-    this.userService.login(this.user)
+  createUser() {
+    this.userService.createUser(this.user)
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
+
 }
-
-

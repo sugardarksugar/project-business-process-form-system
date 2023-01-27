@@ -1,25 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import jwtDecode from "jwt-decode";
+
+export type JWTPayload = {
+  id: number;
+  email: string;
+  is_admin: boolean;
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
-// export class ApiService0 {
-//   api_origin = 'http://locatlhost:4200'
-//   constructor() { }
-
-//   async post(url: string, body: object) {
-//     let res = await fetch(this.api_origin + url, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(body),
-//     })
-//     let json = await res.json()
-//     return json
-//   }
-// }
 
 export class ApiService {
   constructor(public toastCtrl: ToastController) { }
@@ -32,6 +24,30 @@ export class ApiService {
     })
     await toast.present()
   }
+
+  private token = localStorage.getItem('token');
+  jwtPayload?: JWTPayload = this.decodeToken();
+
+  private decodeToken(): JWTPayload | undefined {
+    if (!this.token) {
+      return;
+    }
+    return jwtDecode(this.token)
+  }
+
+  setToken(value: string) {
+    this.token = value;
+    this.jwtPayload = this.decodeToken();
+    localStorage.setItem('token', value)
+
+  }
+
+  removeToken() {
+    localStorage.removeItem('token');
+    this.token = null;
+    delete this.jwtPayload;
+  }
+
 
   async post(url: string, body: object, cb: (json: any) => any) {
     let res = await fetch('http://localhost:8100' + url, {

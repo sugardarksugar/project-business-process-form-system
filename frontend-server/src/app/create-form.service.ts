@@ -7,7 +7,7 @@ export interface Form {
 }
 
 export interface Field {
-  title: string
+  label: string
   type: string
   order: number
 }
@@ -20,7 +20,7 @@ export class CreateFormService {
   constructor(private api: ApiService) { }
 
   createForm(form: Form) {
-    return this.api.post('/form', form, (json: any) => {
+    return this.api.post('/create-form', form, (json: any) => {
       console.log('form ok', json)
     })
   }

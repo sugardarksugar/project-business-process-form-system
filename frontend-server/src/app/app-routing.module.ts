@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
   },
   {
-    path: 'submit-form',
+    path: 'submit/form',
     loadChildren: () => import('./submit-form/submit-form.module').then(m => m.SubmitFormPageModule)
   },
   {
@@ -25,12 +25,17 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminPageModule)
   },
+  {
+    path: 'create/user',
+    loadChildren: () => import('./create-user/create-user.module').then(m => m.CreateUserPageModule)
+  },
+
 
 ];
 

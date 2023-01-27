@@ -4,8 +4,9 @@ import { UserController } from "../controllers/user.controller";
 import { knex } from "../client";
 
 export let userRoutes = express.Router();
-export let userService = new UserService(knex);
 
+let userService = new UserService(knex);
 let userController = new UserController(userService);
 
 userRoutes.post("/login", userController.login);
+userRoutes.post("/create-user", userController.createUser);

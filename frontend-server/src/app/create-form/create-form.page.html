@@ -24,8 +24,8 @@
           <ion-reorder slot="end"></ion-reorder>
         </ion-item-divider>
         <ion-item>
-          <ion-label>Field Title</ion-label>
-          <ion-input value="text" placeholder="text" [(ngModel)]="field.title"></ion-input>
+          <ion-label>Field Label</ion-label>
+          <ion-input value="text" placeholder="text" [(ngModel)]="field.label"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Field Type</ion-label>
@@ -45,6 +45,6 @@
     </ion-reorder-group>
   </ion-list>
   <ion-button (click)="addField()">Add Field</ion-button>
-  <ion-button (click)="saveTemplate()">Save Template</ion-button>
+  <ion-button (click)="saveForm(form)">Save Template</ion-button>
   <pre><code>{{json}}</code></pre>
 </ion-content>

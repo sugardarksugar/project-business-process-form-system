@@ -5,7 +5,9 @@ export class CreateFormController {
     constructor(private createFormService: CreateFormService) { }
 
     createForm = async (req: Request, res: Response) => {
-        let values = req.body;
-        console.log(values);
+        let form = req.body;
+
+        await this.createFormService.createForm(form)
+
     }
 }
