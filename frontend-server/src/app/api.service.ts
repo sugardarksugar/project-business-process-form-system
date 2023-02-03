@@ -16,11 +16,13 @@ export type JWTPayload = {
 export class ApiService {
   constructor(public toastCtrl: ToastController) { }
 
+  apiOrigin = 'http://localhost:8100'
+
   async showError(message: string) {
     let toast = await this.toastCtrl.create({
       message,
       duration: 3500,
-      color: 'danger,'
+      color: 'danger'
     })
     await toast.present()
   }
@@ -50,12 +52,31 @@ export class ApiService {
 
 
   async post(url: string, body: object, cb: (json: any) => any) {
-    let res = await fetch('http://localhost:8100' + url, {
+    let res = await fetch(this.apiOrigin + url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.token,
       },
       body: JSON.stringify(body),
+    })
+
+    let json = await res.json()
+
+    if (json.error) {
+      await this.showError(json.error)
+      return
+    }
+    cb(json)
+  }
+
+  async get(url: string, query: object, cb: (json: any) => any) {
+    let res = await fetch(this.apiOrigin + url + '?' + new URLSearchParams(Object.entries(query)), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.token,
+      },
     })
 
     let json = await res.json()

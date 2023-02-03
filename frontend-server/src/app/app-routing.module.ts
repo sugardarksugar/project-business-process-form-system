@@ -35,7 +35,14 @@ const routes: Routes = [
     path: 'create/user',
     loadChildren: () => import('./create-user/create-user.module').then(m => m.CreateUserPageModule)
   },
-
+  {
+    path: 'Inbox',
+    loadChildren: () => import('./inbox/inbox.module').then(m => m.InboxPageModule)
+  },
+  {
+    path: 'form-content/:id',
+    loadChildren: () => import('./form-content/form-content.module').then(m => m.FormContentPageModule)
+  },
 
 ];
 

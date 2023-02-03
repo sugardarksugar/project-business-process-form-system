@@ -16,8 +16,9 @@ export class LoginPage implements OnInit {
     password: '',
   }
 
-  login() {
-    this.userService.login(this.user)
+  async login() {
+    await this.userService.login(this.user)
+    window.location.href = 'http://localhost:4200/'
   }
 
   ngOnInit() { }

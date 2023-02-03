@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemReorderEventDetail } from '@ionic/angular';
-import { CreateFormService, Form } from '../create-form.service';
+import { Form } from '../form.service';
 import { ApiService } from '../api.service';
+import { FormService } from '../form.service';
 
 @Component({
   selector: 'app-create-form',
@@ -18,7 +19,7 @@ export class CreateFormPage implements OnInit {
     fields: [],
   }
 
-  constructor(public createFormService: CreateFormService, public api: ApiService) {
+  constructor(public formService: FormService, public api: ApiService) {
   }
 
   reorderForm(ev: CustomEvent<ItemReorderEventDetail>) {
@@ -43,6 +44,7 @@ export class CreateFormPage implements OnInit {
 
   removeField(i: number) {
     this.form.fields.splice(i, 1)
+
   }
 
   get json(): string {
@@ -50,7 +52,7 @@ export class CreateFormPage implements OnInit {
   }
 
   async saveForm(form: Form) {
-    await this.createFormService.createForm(form)
+    await this.formService.createForm(form)
   }
 }
 

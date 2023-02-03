@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { CreateFormPageRoutingModule } from './create-form-routing.module';
-import { CreateFormPage } from './create-form.page';
+import { InboxPageRoutingModule } from './inbox-routing.module';
+import { InboxPage } from './inbox.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateFormPageRoutingModule
+    InboxPageRoutingModule
   ],
-  declarations: [CreateFormPage]
+  declarations: [InboxPage]
 })
-export class CreateFormPageModule { }
+export class InboxPageModule { }

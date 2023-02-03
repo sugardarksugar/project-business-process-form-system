@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 
-
 export interface User {
   email: string,
   password: string,
@@ -21,6 +20,10 @@ export class UserService {
       user,
       (json: any) => {
         console.log('login', json);
+
+        if (json.status)
+          alert(json.message)
+
         if (json.token) {
           this.api.setToken(json.token)
         }
@@ -32,7 +35,10 @@ export class UserService {
     await this.api.post(
       '/create-user',
       user,
-      (json: any) => { }
+      (json: any) => {
+        if (json.status)
+          alert(json.message)
+      }
     )
   }
 }

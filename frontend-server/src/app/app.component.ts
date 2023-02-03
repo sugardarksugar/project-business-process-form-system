@@ -11,7 +11,7 @@ export class AppComponent {
     { title: 'Login', url: 'login', icon: '' },
   ];
   public userPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
+    { title: 'Inbox', url: '/Inbox', icon: 'mail' },
     { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
     { title: 'Submit Form', url: '/submit/form', icon: 'document' },
     { title: 'Create Form', url: '/create/form', icon: "document" },
@@ -19,7 +19,7 @@ export class AppComponent {
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
   ];
   public adminPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
+    { title: 'Inbox', url: '/Inbox', icon: 'mail' },
     { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
     { title: 'Create Form', url: '/create/form', icon: "document" },
     { title: 'Create User', url: '/create/user', icon: "document" },
@@ -35,14 +35,18 @@ export class AppComponent {
 
   get appPages() {
     let user = this.api.jwtPayload
-    return !user ? this.guestPages
-      : user.is_admin ? this.adminPages
+    return !user
+      ? this.guestPages
+      : user.is_admin
+        ? this.adminPages
         : this.userPages
   }
 
   logout() {
     this.api.removeToken()
+    alert('Logout success')
     window.location.href = 'http://localhost:4200/login'
+
   }
 
 }

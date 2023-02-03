@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Inbox</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let form of allForms" [routerLink]="'/form-content/'+form.form_id">
+      <ion-label>{{form.creator_email}}</ion-label>
+      <ion-label>{{form.submitted_title}}</ion-label>
+      <ion-label>{{form.submit_time | date:'yyyy-MM-dd HH:mm'}}</ion-label>
+      <ion-badge>{{form.role}}</ion-badge>
+      <!-- <ion-label>{{}}</ion-label> -->
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- [routerLink]="'/form/'+form.id" -->

@@ -33,9 +33,9 @@ export async function up(knex: Knex): Promise<void> {
             table.integer("creator_id").notNullable().references("user.id");
             table.integer("filler_id").notNullable().references("user.id");
             table.integer("admin").notNullable().references("user.id");
-            table.timestamp("create_time").notNullable();
-            table.timestamp("submit_time").notNullable();
-            table.timestamp("remove_time").notNullable();
+            table.timestamp("create_time").nullable();
+            table.timestamp("submit_time").nullable();
+            table.timestamp("remove_time").nullable();
         })
     }
     if (!(await knex.schema.hasTable("form_viewer"))) {
@@ -49,6 +49,7 @@ export async function up(knex: Knex): Promise<void> {
         await knex.schema.createTable("form_response", (table) => {
             table.increments("id");
             table.integer("field_id").notNullable().references("field.id");
+            table.integer("form_id").notNullable().references("form.id");
             table.string("content", 255).notNullable();
         })
     }

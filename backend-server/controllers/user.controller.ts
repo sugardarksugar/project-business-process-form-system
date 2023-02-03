@@ -12,14 +12,16 @@ export class UserController {
 
         let result = await this.userService.login(user)
 
-        return res.status(200).json({ token: result })
+        return res.json({
+            status: true,
+            message: 'Login Success!',
+            token: result
+        })
     }
 
     createUser = async (req: Request, res: Response) => {
 
         let user = req.body
-
-        console.log('user.controller.ts user:', user);
 
         let checkEmail = await this.userService.checkEmailDup(user.email)
 
@@ -38,15 +40,14 @@ export class UserController {
                 message: "Use 6 character or more for password"
             })
         }
+
         let hashedPassword = await hashPassword(user.password)
-        console.log("HELLOOOOO");
 
         await this.userService.createUser(user.email, hashedPassword)
 
         return res.status(200).json({
             status: true,
-            message:
-                "Successfully registered. Please login and enjoy our services. Have a nice day!",
+            message: "Create Account Successfully!",
         });
 
 
