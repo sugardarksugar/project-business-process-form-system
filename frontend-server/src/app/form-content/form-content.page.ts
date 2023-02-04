@@ -32,6 +32,10 @@ export class FormContentPage implements OnInit {
 
   }
 
+  // submitFieldsContents() {
+  //   this.formResponseService.submitFieldsContents()
+  // }
+
   ngOnInit() {
     this.getFormDetails()
   }

@@ -10,6 +10,15 @@ export interface Fields {
   content: string,
 }
 
+export interface Contents {
+  content: []
+}
+
+export interface Json {
+  status: boolean,
+  message: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,5 +32,12 @@ export class FormResponseService {
       cb
     )
   }
+
+  // submitFieldsContents(contents: Contents, cb: (json: Json) => void) {
+  //   this.api.post(
+  //     `/form/fields/contents`, contents,
+  //     cb
+  //   )
+  // }
 
 }

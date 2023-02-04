@@ -9,6 +9,9 @@
     <ion-label>
       {{field.label}}
     </ion-label>
+    <ion-input *ngIf="field.type === 'text' || field.type === 'date'" [type]="field.type"
+      [(ngModel)]="field.content"></ion-input>
+    <!-- <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox> -->
   </ion-item>
-
+  <ion-button>Submit</ion-button>
 </ion-content>

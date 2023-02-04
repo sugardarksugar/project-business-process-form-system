@@ -13,5 +13,16 @@ export class FormResponseController {
 
         return res.status(200).json(json)
     }
+    // submitFieldsContents = async (req: Request, res: Response) => {
+    //     try {
 
+    //         let content = req.body;
+    //         // let json = await this.
+
+    //         return res.status(200)
+
+    //     } catch (error) {
+
+    //     }
+    // }
 }
