@@ -1,18 +1,88 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>formContent</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let field of fields">
-    <ion-label>
-      {{field.label+':'}}
-    </ion-label>
-    <ion-input *ngIf="(field.type === 'text' || field.type === 'date'
-    ||field.type==='time') && this.permission==='filler' " [type]="field.type"
-      [(ngModel)]="field.content"></ion-input>
-    <!-- <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox> -->
-  </ion-item>
-  <ion-button>Submit</ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let field of fields">
+      <ion-label> {{field.label+':'}} </ion-label>
+      <ion-input
+        *ngIf="(field.type === 'text' || field.type === 'date' || field.type==='time') && this.permission==='filler' "
+        [type]="field.type"
+        [(ngModel)]="field.content"
+      ></ion-input>
+      <!-- <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox> -->
+    </ion-item>
+  </ion-list>
+
+  <ion-button *ngIf="this.permission==='filler'" (click)="saveDraft()">Save Draft</ion-button>
+
+
+
+  <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()">Submit</ion-button>
+
+
+  <ng-container *ngIf="ready_to_submit">
+    <ion-list-header>
+      Create another form for next step
+    </ion-list-header>
+
+    <ion-item *ngIf=" this.permission==='filler' ">
+      <ion-label position="floating">Title</ion-label>
+      <ion-input type="text" [(ngModel)]="submitFormContent.title"></ion-input>
+    </ion-item>
+    <ion-item *ngIf=" this.permission==='filler' ">
+      <ion-label position="floating">Recipient: viewers</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="submitFormContent.viewer_emails"
+      ></ion-input>
+    </ion-item>
+    <ion-item *ngIf=" this.permission==='filler' ">
+      <ion-label position="floating">Recipient: filler</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="submitFormContent.filler_email"
+      ></ion-input>
+    </ion-item>
+    <ion-item *ngIf=" this.permission==='filler' ">
+      <ion-label position="floating">Form Template ID</ion-label>
+      <ion-input
+        readonly
+        type="number"
+        [(ngModel)]="submitFormContent.template_id"
+      ></ion-input>
+      <ion-button slot="end" (click)="submitFormContent.template_id = 0"
+        >clear</ion-button
+      >
+    </ion-item>
+    <ion-item *ngIf=" this.permission==='filler' ">
+      <ion-label position="floating">Form Template Name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="templateName"
+        (ionChange)="searchTemplate()"
+      ></ion-input>
+    </ion-item>
+    <ion-list
+      *ngIf="this.permission==='filler' && searchResult && !submitFormContent.referenceForms_ids"
+    >
+      <ion-item *ngFor="let form of searchResult.forms">
+        <ion-label> #{{form.id}}: {{form.name}} </ion-label>
+        <ion-button (click)="selectedForm(form)" slot="end"> select </ion-button>
+        <ion-button slot="end"> preview </ion-button>
+      </ion-item>
+    </ion-list>  
+
+
+  <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()">Invite Recipients</ion-button>
+
+  </ng-container>
+
 </ion-content>

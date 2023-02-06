@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormResponseService, Fields } from '../form-response.service';
+import { FormResponseService, Field } from '../form-response.service';
+import {
+  FormService,
+  SearchFormResult,
+  SearchResultForm,
+  SubmitFormContent,
+} from '../form.service';
 
 @Component({
   selector: 'app-form-content',
@@ -9,66 +15,76 @@ import { FormResponseService, Fields } from '../form-response.service';
   styleUrls: ['./form-content.page.scss'],
 })
 export class FormContentPage implements OnInit {
+  form_id = +this.route.snapshot.paramMap.get('id')!;
 
-  form_id = this.route.snapshot.paramMap.get('id')
+  fields: Field[] = [];
+  filler_id?: number;
 
-  fields: Fields[] = []
+  ready_to_submit = false;
 
-  permission: 'filler' | 'viewer' = "viewer";
+  get permission(): 'filler' | 'viewer' {
+    return this.api.jwtPayload?.id == this.filler_id ? 'filler' : 'viewer';
+  }
+
+  searchResult?: SearchFormResult;
+
+  submitFormContent: SubmitFormContent = {
+    title: '',
+    referenceForms_ids: '',
+    template_id: 0,
+    viewer_emails: '',
+    filler_email: '',
+  };
+
+  templateName = '';
 
   constructor(
-    public api: ApiService, public route: ActivatedRoute,
-    public formResponseService: FormResponseService
-  ) {
+    public api: ApiService,
+    public route: ActivatedRoute,
+    public formResponseService: FormResponseService,
+    public formService: FormService
+  ) {}
+
+  searchTemplate() {
+    this.formService.searchFormsByTitle(this.templateName, (json) => {
+      this.searchResult = json;
+      console.log(json);
+    });
+  }
+
+  selectedForm(form: SearchResultForm) {
+    this.submitFormContent.template_id = form.id;
+    this.templateName = form.name;
   }
 
   getFormDetails() {
+    let id = +this.form_id!;
 
-    let id = +this.form_id!
-
-    if (!id) return
-    this.formResponseService.getFormDetails(id, json => {
-      this.fields = json.fields
-    })
+    if (!id) return;
+    this.formResponseService.getFormDetails(id, (json) => {
+      this.fields = json.fields;
+      this.filler_id = json.filler_id;
+    });
   }
 
-  async permissionStatus(): Promise<'filler' | 'viewer'> {
-
-    return new Promise(rec => {
-
-      let id = +this.form_id!
-      let user_id;
-      let filler_id;
-
-      this.formResponseService.getFormDetails(id, json => {
-
-        user_id = this.api.jwtPayload ? this.api.jwtPayload.id : -1
-        filler_id = json.fields[0].filler_id
-
-        console.log('wa', user_id);
-        console.log('haha', filler_id);
-
-        if (user_id == filler_id) {
-          rec('filler')
-        } else {
-          rec('viewer')
-        }
-
-      })
-
-    })
-
+  saveDraft(cb?: () => any) {
+    this.formResponseService.saveDraft(
+      this.form_id,
+      this.fields.map((field) => ({
+        field_id: field.field_id,
+        content: field.content || '',
+      })),
+      cb
+    );
   }
 
-  submitFillerForm() {
-    this.formResponseService.
+  submitForm() {
+    this.saveDraft(() => {
+      this.ready_to_submit = true;
+    });
   }
 
   async ngOnInit() {
-    this.getFormDetails()
-    this.permission = await this.permissionStatus();
-    console.log('hah', await this.permissionStatus());
-
+    this.getFormDetails();
   }
-
 }

@@ -5,54 +5,45 @@ import { ApiService } from '../api.service';
 import { FormService } from '../form.service';
 
 @Component({
-  selector: 'app-create-form',
-  templateUrl: './create-form.page.html',
-  styleUrls: ['./create-form.page.scss'],
+  selector: 'app-create-template',
+  templateUrl: './create-template.page.html',
+  styleUrls: ['./create-template.page.scss'],
 })
-
-export class CreateFormPage implements OnInit {
-
-  nextOrder = 1
+export class CreateTemplatePage implements OnInit {
+  nextOrder = 1;
 
   form: Form = {
     title: '',
     fields: [],
-  }
+  };
 
-  constructor(public formService: FormService, public api: ApiService) {
-  }
+  constructor(public formService: FormService, public api: ApiService) {}
 
   reorderForm(ev: CustomEvent<ItemReorderEventDetail>) {
     console.log(ev);
-
   }
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    ev.detail.complete()
-  };
-
+    ev.detail.complete();
+  }
 
   ngOnInit() {
-    this.addField()
+    this.addField();
   }
 
   addField() {
-
-    this.form.fields.push({ label: '', type: '', order: this.nextOrder })
-    this.nextOrder++
-
+    this.form.fields.push({ label: '', type: '', order: this.nextOrder });
+    this.nextOrder++;
   }
 
   removeField(i: number) {
-    this.form.fields.splice(i, 1)
-
+    this.form.fields.splice(i, 1);
   }
 
   get json(): string {
-    return JSON.stringify(this.form, null, 2)
+    return JSON.stringify(this.form, null, 2);
   }
 
   async saveForm(form: Form) {
-    await this.formService.createForm(form)
+    await this.formService.createTemplate(form);
   }
 }
-

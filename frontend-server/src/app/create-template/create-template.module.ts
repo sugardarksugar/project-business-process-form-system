@@ -4,16 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreateFormPageRoutingModule } from './create-form-routing.module';
-import { CreateFormPage } from './create-form.page';
+import { CreateTemplatePageRoutingModule } from './create-template-routing.module';
+
+import { CreateTemplatePage } from './create-template.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateFormPageRoutingModule
+    CreateTemplatePageRoutingModule
   ],
-  declarations: [CreateFormPage]
+  declarations: [CreateTemplatePage]
 })
-export class CreateFormPageModule { }
+export class CreateTemplatePageModule {}

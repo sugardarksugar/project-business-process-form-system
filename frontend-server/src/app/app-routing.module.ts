@@ -5,51 +5,67 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'folder/Inbox',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
+    loadChildren: () =>
+      import('./folder/folder.module').then((m) => m.FolderPageModule),
   },
   {
     path: 'submit/form',
-    loadChildren: () => import('./submit-form/submit-form.module').then(m => m.SubmitFormPageModule)
-  },
-  {
-    path: 'create/form',
-    loadChildren: () => import('./create-form/create-form.module').then(m => m.CreateFormPageModule)
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./submit-form/submit-form.module').then(
+        (m) => m.SubmitFormPageModule
+      ),
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginPageModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminPageModule)
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminPageModule),
   },
   {
     path: 'create/user',
-    loadChildren: () => import('./create-user/create-user.module').then(m => m.CreateUserPageModule)
+    loadChildren: () =>
+      import('./create-user/create-user.module').then(
+        (m) => m.CreateUserPageModule
+      ),
   },
   {
     path: 'Inbox',
-    loadChildren: () => import('./inbox/inbox.module').then(m => m.InboxPageModule)
+    loadChildren: () =>
+      import('./inbox/inbox.module').then((m) => m.InboxPageModule),
   },
   {
     path: 'form-content/:id',
-    loadChildren: () => import('./form-content/form-content.module').then(m => m.FormContentPageModule)
+    loadChildren: () =>
+      import('./form-content/form-content.module').then(
+        (m) => m.FormContentPageModule
+      ),
   },
-
+  {
+    path: 'create-template',
+    loadChildren: () =>
+      import('./create-template/create-template.module').then(
+        (m) => m.CreateTemplatePageModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

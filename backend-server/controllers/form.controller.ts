@@ -1,109 +1,107 @@
 import { NextFunction, Request, Response } from "express";
-import { FormService } from "../services/form.services"
+import { FormService } from "../services/form.services";
 import { array, email, id, object, string } from "cast.ts";
 import { decodeToken } from "../jwt";
 
-
 export class FormController {
-    constructor(private formService: FormService) { }
+  constructor(private formService: FormService) {}
 
-    createForm = async (req: Request, res: Response) => {
+  createTemplate = async (req: Request, res: Response) => {
+    let form = req.body;
 
-        let form = req.body;
-
-        if (!form.title) {
-            return res.json({
-                status: false,
-                type: 'text',
-                message: 'Please input from title!'
-            })
-        }
-
-        let checkDupTemplateName = await this.formService.checkDupTemplateName(form)
-
-        if (checkDupTemplateName.length >= 1) {
-            return res.json({
-                status: false,
-                type: 'text',
-                message: 'Template name already taken!'
-            })
-        }
-
-        await this.formService.createForm(form)
-
-        return res.json({
-            status: true,
-            type: 'text',
-            message: 'Template Saved!'
-        })
+    if (!form.title) {
+      return res.json({
+        status: false,
+        type: "text",
+        message: "Please input from title!",
+      });
     }
 
-    searchForm = async (req: Request, res: Response) => {
-        let title = req.query.title as string;
-        res.json(await this.formService.searchForm(title))
+    let checkDupTemplateName = await this.formService.checkDupTemplateName(
+      form
+    );
+
+    if (checkDupTemplateName.length >= 1) {
+      return res.json({
+        status: false,
+        type: "text",
+        message: "Template name already taken!",
+      });
     }
 
-    submitForm = async (req: Request, res: Response, next: NextFunction) => {
+    await this.formService.createTemplate(form);
 
-        try {
-            let parser = object({
-                body: object({
-                    title: string(),
-                    template_id: id(),
-                    filler_email: email(),
-                    viewer_emails: array(email())
-                })
-            })
+    return res.json({
+      status: true,
+      type: "text",
+      message: "Template Saved!",
+    });
+  };
 
+  searchForm = async (req: Request, res: Response) => {
+    let title = req.query.title as string;
+    res.json(await this.formService.searchForm(title));
+  };
 
-            let submitForm = parser.parse(req).body
-            let creator_id = decodeToken(req).id
+  searchReferenceForm = async (req: Request, res: Response) => {
+    let referenceTitle = req.query.title as string;
+    res.json(await this.formService.searchReferenceForm(referenceTitle));
+  };
 
-            await this.formService.submitForm({
-                ...submitForm,
-                creator_id,
-            })
+  submitForm = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let parser = object({
+        body: object({
+          title: string(),
+          referenceForms_ids: array(string()),
+          template_id: id(),
+          filler_email: email(),
+          viewer_emails: array(email()),
+        }),
+      });
 
-            res.json({
-                status: true,
-                type: 'text',
-                message: 'Form Submitted'
-            })
-        } catch (error) {
-            next(error)
-        }
+      let submitForm = parser.parse(req).body;
+      let creator_id = decodeToken(req).id;
 
+      await this.formService.submitForm({
+        ...submitForm,
+        creator_id,
+      });
+
+      res.json({
+        status: true,
+        type: "text",
+        message: "Form Submitted",
+      });
+    } catch (error) {
+      next(error);
     }
+  };
 
-    getViewerForm = async (req: Request, res: Response, next: NextFunction) => {
-        try {
+  getViewerForm = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let user_id = decodeToken(req).id;
 
-            let user_id = decodeToken(req).id
+      await this.formService.getViewerForm(user_id);
 
-            await this.formService.getViewerForm(user_id)
+      let json = await this.formService.getViewerForm(user_id);
 
-            let json = await this.formService.getViewerForm(user_id)
-
-            res.json(json)
-
-        } catch (error) {
-            next(error)
-        }
+      res.json(json);
+    } catch (error) {
+      next(error);
     }
-    getFillerForm = async (req: Request, res: Response, next: NextFunction) => {
-        try {
+  };
+  getFillerForm = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let user_id = decodeToken(req).id;
 
-            let user_id = decodeToken(req).id
+      await this.formService.getFillerForm(user_id);
 
-            await this.formService.getFillerForm(user_id)
+      let json = await this.formService.getFillerForm(user_id);
 
-            let json = await this.formService.getFillerForm(user_id)
-
-            res.json(json)
-
-        } catch (error) {
-            next(error)
-        }
+      res.json(json);
+    } catch (error) {
+      next(error);
     }
+  };
 }
-
