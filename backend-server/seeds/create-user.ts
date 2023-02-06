@@ -92,13 +92,13 @@ export async function seed(knex: Knex): Promise<void> {
         {
             template_id: 1,
             label: 'Name of Teammate',
-            type: 'date',
+            type: 'text',
             order: 7
         },
         {
             template_id: 1,
             label: 'Title',
-            type: 'date',
+            type: 'text',
             order: 8
         },
         {
@@ -110,13 +110,13 @@ export async function seed(knex: Knex): Promise<void> {
         {
             template_id: 1,
             label: 'Time of Submit',
-            type: 'date',
+            type: 'time',
             order: 10
         },
         {
             template_id: 1,
             label: 'Signature',
-            type: 'date',
+            type: 'signature',
             order: 11
         },
     ]

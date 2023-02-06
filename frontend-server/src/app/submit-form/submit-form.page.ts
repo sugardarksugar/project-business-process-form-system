@@ -49,6 +49,7 @@ export class SubmitFormPage implements OnInit {
     this.formService.submitForm(this.submitFormContent)
   }
 
+
   ngOnInit() {
   }
 }

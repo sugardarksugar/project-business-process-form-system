@@ -1,8 +1,19 @@
 import { Knex } from "knex";
 // import { HttpError } from "../error";
 
+export interface FilledFormFields {
+    form_id: number,
+    field_id: number,
+    content: string,
+}
+
+export interface FilledForm {
+    filledFormFields: FilledFormFields[]
+}
+
 export class FormResponseService {
     constructor(private knex: Knex) { }
+
 
     async getFormDetails(form_id: number) {
 
@@ -33,7 +44,7 @@ export class FormResponseService {
             .from('form')
             .innerJoin('template', 'template.id', 'form.template_id')
             .innerJoin('field', 'field.template_id', 'form.template_id')
-            .select('field.id', 'field.label', 'field.type', 'field.order')
+            .select('form.filler_id as filler_id', 'field.id as field_id', 'field.label', 'field.type', 'field.order')
 
         // let fieldsContent = await this.knex
         //     .where('form.id', form_id)
@@ -42,8 +53,6 @@ export class FormResponseService {
         //     .innerJoin('template', 'template.id', 'form.template_id')
         //     .innerJoin('field', 'field.template_id', 'template.id')
         //     .select('form_response.content')
-        console.log(form_id);
-
         console.log(fields);
 
         return { fields }
@@ -58,4 +67,9 @@ export class FormResponseService {
     //         // content:,
     //     )
     // }
+
+    async submitFilledForm(filledFormFields: FilledFormFields) {
+        for (let filledForm of filledFormFields)
+
+    }
 }

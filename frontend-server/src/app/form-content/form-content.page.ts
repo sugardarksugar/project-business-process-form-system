@@ -14,9 +14,12 @@ export class FormContentPage implements OnInit {
 
   fields: Fields[] = []
 
+  permission: 'filler' | 'viewer' = "viewer";
+
   constructor(
     public api: ApiService, public route: ActivatedRoute,
-    public formResponseService: FormResponseService) {
+    public formResponseService: FormResponseService
+  ) {
   }
 
   getFormDetails() {
@@ -26,18 +29,46 @@ export class FormContentPage implements OnInit {
     if (!id) return
     this.formResponseService.getFormDetails(id, json => {
       this.fields = json.fields
-      console.log(json);
+    })
+  }
+
+  async permissionStatus(): Promise<'filler' | 'viewer'> {
+
+    return new Promise(rec => {
+
+      let id = +this.form_id!
+      let user_id;
+      let filler_id;
+
+      this.formResponseService.getFormDetails(id, json => {
+
+        user_id = this.api.jwtPayload ? this.api.jwtPayload.id : -1
+        filler_id = json.fields[0].filler_id
+
+        console.log('wa', user_id);
+        console.log('haha', filler_id);
+
+        if (user_id == filler_id) {
+          rec('filler')
+        } else {
+          rec('viewer')
+        }
+
+      })
 
     })
 
   }
 
-  // submitFieldsContents() {
-  //   this.formResponseService.submitFieldsContents()
-  // }
+  submitFillerForm() {
+    this.formResponseService.
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getFormDetails()
+    this.permission = await this.permissionStatus();
+    console.log('hah', await this.permissionStatus());
+
   }
 
 }

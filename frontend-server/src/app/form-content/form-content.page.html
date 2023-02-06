@@ -7,9 +7,10 @@
 <ion-content>
   <ion-item *ngFor="let field of fields">
     <ion-label>
-      {{field.label}}
+      {{field.label+':'}}
     </ion-label>
-    <ion-input *ngIf="field.type === 'text' || field.type === 'date'" [type]="field.type"
+    <ion-input *ngIf="(field.type === 'text' || field.type === 'date'
+    ||field.type==='time') && this.permission==='filler' " [type]="field.type"
       [(ngModel)]="field.content"></ion-input>
     <!-- <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox> -->
   </ion-item>

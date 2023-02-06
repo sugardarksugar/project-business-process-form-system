@@ -8,21 +8,19 @@ export class FormResponseController {
     getFormDetails = async (req: Request, res: Response) => {
 
         let form_id = +req.params.id;
-
         let json = await this.formResponseService.getFormDetails(form_id)
 
         return res.status(200).json(json)
     }
-    // submitFieldsContents = async (req: Request, res: Response) => {
-    //     try {
 
-    //         let content = req.body;
-    //         // let json = await this.
+    submitFilledForm = async (req: Request, res: Response) => {
+        try {
 
-    //         return res.status(200)
+            let filledForm = req.body;
+            let json = await this.formResponseService.submitFilledForm(filledForm)
 
-    //     } catch (error) {
+        } catch (error) {
+        }
 
-    //     }
-    // }
+    }
 }
