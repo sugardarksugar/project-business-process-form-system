@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { FormService } from "../services/form.services";
-import { array, email, id, object, string } from "cast.ts";
+import { array, email, id, object, optional, string } from "cast.ts";
 import { decodeToken } from "../jwt";
 
 export class FormController {
@@ -53,7 +53,7 @@ export class FormController {
       let parser = object({
         body: object({
           title: string(),
-          referenceForms_ids: array(string()),
+          referenceForms_ids: optional(array(string())),
           template_id: id(),
           filler_email: email(),
           viewer_emails: array(email()),
@@ -61,6 +61,7 @@ export class FormController {
       });
 
       let submitForm = parser.parse(req).body;
+      console.log("submitForm ", submitForm);
       let creator_id = decodeToken(req).id;
 
       await this.formService.submitForm({
@@ -91,6 +92,7 @@ export class FormController {
       next(error);
     }
   };
+
   getFillerForm = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let user_id = decodeToken(req).id;

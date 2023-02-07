@@ -87,12 +87,6 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       template_id: 1,
-      label: "Relevant Docs",
-      type: "attachment",
-      order: 6,
-    },
-    {
-      template_id: 1,
       label: "Name of Teammate",
       type: "text",
       order: 7,
@@ -118,7 +112,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       template_id: 1,
       label: "Signature",
-      type: "signature",
+      type: "text",
       order: 11,
     },
   ];
@@ -142,7 +136,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       template_id: 2,
       label: "Accept/Reject request",
-      type: "checkbox",
+      type: "text",
       order: 1,
     },
     {
@@ -190,7 +184,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       template_id: 2,
       label: "Signature",
-      type: "signature",
+      type: "text",
       order: 9,
     },
   ];

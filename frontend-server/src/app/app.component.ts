@@ -10,15 +10,12 @@ export class AppComponent {
   public guestPages = [{ title: 'Login', url: 'login', icon: '' }];
   public userPages = [
     { title: 'Inbox', url: '/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
     { title: 'Submit Form', url: '/submit/form', icon: 'document' },
     {
       title: 'Create Form Template',
       url: '/create-template',
       icon: 'document',
     },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
   ];
   public adminPages = [
     { title: 'Inbox', url: '/Inbox', icon: 'mail' },

@@ -15,33 +15,39 @@ export class FormResponseService {
   constructor(private knex: Knex) {}
 
   async getFormDetails(form_id: number) {
-    // let searchReferencedForms = await this.knex
-    //     .where('form.id', form_id)
-    //     .from('form')
-    //     .innerJoin('form_reference', 'form_reference_form_id', 'form.id')
-    //     .select('form_reference.reference_form_id')
+    let referenceFields = [];
 
-    // for (let searchReferencedForm of searchReferencedForms) {
-    //     let referencedFormFields = await this.knex
-    //         .from('form')
-    //         .where('form.id', searchReferencedForm.reference_form_id)
-    //         .innerJoin('template', 'template.id', 'form.template_id')
-    //         .innerJoin('field', 'field.template_id', 'template.id')
-    //         .select('field.label', 'field.type', 'field.order')
+    let searchReferencedForms = await this.knex
+      .where("form.id", form_id)
+      .from("form")
+      .innerJoin("form_reference", "reference_form_id", "form.id")
+      .select("form_reference.reference_form_id");
 
-    //     let referencedFormFieldsContent = await this.knex
-    //         .from('form')
-    //         .where('form.id', searchReferencedForm.reference_form_id)
-    //         .innerJoin('form_response', 'form_response.form_id', 'form.id')
-    //         .innerJoin('field', 'field.id', 'form_response.field_id')
-    //         .select('form_response.field_id', 'form_response.content')
-    // }
+    for (let searchReferencedForm of searchReferencedForms) {
+      let referencedFormFields = await this.knex
+        .from("form")
+        .where("form.id", searchReferencedForm.reference_form_id)
+        .innerJoin("template", "template.id", "form.template_id")
+        .innerJoin("field", "field.template_id", "template.id")
+        .select("field.label", "field.type", "field.order");
+
+      let referencedFormFieldsContent = await this.knex
+        .from("form")
+        .where("form.id", searchReferencedForm.reference_form_id)
+        .innerJoin("form_response", "form_response.form_id", "form.id")
+        .innerJoin("field", "field.id", "form_response.field_id")
+        .select("form_response.field_id", "form_response.content");
+      referenceFields = referencedFormFields.concat(
+        referencedFormFieldsContent
+      );
+    }
 
     let form = await this.knex
       .where("form.id", form_id)
       .from("form")
       .select("form.filler_id")
       .first();
+
     let filler_id = form?.filler_id;
 
     let fields = await this.knex
@@ -66,8 +72,18 @@ export class FormResponseService {
     //     .innerJoin('template', 'template.id', 'form.template_id')
     //     .innerJoin('field', 'field.template_id', 'template.id')
     //     .select('form_response.content')
+    console.log("filler_id", filler_id);
+    console.log("fields", fields);
+    console.log("searchReferencedForms", searchReferencedForms);
+    console.log("referenceFields", referenceFields);
 
-    return { filler_id, fields };
+    return {
+      formDetails: { fields, filler_id },
+      referenceForms: {
+        form_id: searchReferencedForms,
+        field: referenceFields,
+      },
+    };
   }
 
   async saveDraft(

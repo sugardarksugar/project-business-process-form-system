@@ -31,6 +31,7 @@
           <ion-label>Field Type</ion-label>
           <ion-select [(ngModel)]="field.type" placeholder="Field Type">
             <ion-select-option value="date">Date</ion-select-option>
+            <ion-select-option value="time">Time</ion-select-option>
             <ion-select-option value="text">Text</ion-select-option>
             <ion-select-option value="checkbox">Check Box</ion-select-option>
             <ion-select-option value="attachment">Upload Attachment</ion-select-option>
@@ -38,7 +39,7 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-button (click)="removeField(i)">
+          <ion-button color ='danger'(click)="removeField(i)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
         </ion-item>
@@ -47,5 +48,4 @@
   </ion-list>
   <ion-button (click)="addField()">Add Field</ion-button>
   <ion-button (click)="saveForm(form)">Save Template</ion-button>
-  <pre><code>{{json}}</code></pre>
 </ion-content>

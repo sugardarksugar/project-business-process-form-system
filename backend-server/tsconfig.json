@@ -17,11 +17,14 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true
+        "noUnusedLocals": true,
+        "sourceRoot": ".",
+        "outDir": "dist"
+
     },
     "exclude": [
         "node_modules",
-        "build",
+        "dist",
         "scripts",
         "index.js"
     ]

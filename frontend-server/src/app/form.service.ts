@@ -17,7 +17,7 @@ export interface SearchFormResult {
 }
 
 export interface SearchReferenceFormResult {
-  referenceForms: SearchResultReferenceForm[];
+  referenceForms?: SearchResultReferenceForm[];
 }
 
 export interface SearchResultReferenceForm {
@@ -33,7 +33,7 @@ export interface SearchResultForm {
 export interface SubmitFormContent {
   title: string;
   template_id: number;
-  referenceForms_ids: string;
+  referenceForms_ids: string[];
   filler_email: string;
   viewer_emails: string;
 }
@@ -109,6 +109,7 @@ export class FormService {
       {
         ...submitFormContent,
         viewer_emails: submitFormContent.viewer_emails.split(','),
+        referenceForms_ids: submitFormContent.referenceForms_ids,
       },
       (json: any) => {
         if (json.status) {

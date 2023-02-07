@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormResponseService, Field } from '../form-response.service';
+import {
+  FormResponseService,
+  Field,
+  ReferenceForms,
+  RefPlusFormDetails,
+} from '../form-response.service';
 import {
   FormService,
   SearchFormResult,
@@ -16,7 +21,7 @@ import {
 })
 export class FormContentPage implements OnInit {
   form_id = +this.route.snapshot.paramMap.get('id')!;
-
+  referenceForms: ReferenceForms[] = [];
   fields: Field[] = [];
   filler_id?: number;
 
@@ -30,7 +35,7 @@ export class FormContentPage implements OnInit {
 
   submitFormContent: SubmitFormContent = {
     title: '',
-    referenceForms_ids: '',
+    referenceForms_ids: [],
     template_id: 0,
     viewer_emails: '',
     filler_email: '',
@@ -62,8 +67,12 @@ export class FormContentPage implements OnInit {
 
     if (!id) return;
     this.formResponseService.getFormDetails(id, (json) => {
-      this.fields = json.fields;
-      this.filler_id = json.filler_id;
+      console.log(json);
+      console.log(json.formDetails);
+      this.fields = json.formDetails.fields;
+      console.log(json.referenceForms);
+      console.log(this.fields);
+      this.filler_id = json.formDetails.filler_id;
     });
   }
 

@@ -44,7 +44,7 @@ export class FormService {
       .select("id", "submitted_title")
       .from(`form`)
       .whereILike("submitted_title", "%" + referenceTitle + "%");
-    console.log(referenceForms);
+    console.log("referenceForms:", referenceForms);
 
     return { referenceForms };
   }
@@ -62,11 +62,11 @@ export class FormService {
   }
   async submitForm(submitForm: {
     title: string;
-    referenceForms_ids: string[];
+    referenceForms_ids?: string[];
     template_id: number;
-    creator_id: number;
     filler_email: string;
     viewer_emails: string[];
+    creator_id: number;
   }) {
     let create_time = new Date();
     let remove_time = new Date(new Date().setDate(create_time.getDate() + 30));
@@ -86,10 +86,12 @@ export class FormService {
 
     let form_id = row.id;
 
-    for (let referenceForm_id of submitForm.referenceForms_ids) {
-      await this.knex.insert({
-        reference_form_id: referenceForm_id,
-      });
+    if (submitForm.referenceForms_ids) {
+      for (let referenceForm_id of submitForm.referenceForms_ids) {
+        await this.knex.insert({
+          reference_form_id: referenceForm_id,
+        });
+      }
     }
 
     for (let email of submitForm.viewer_emails) {

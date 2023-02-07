@@ -27,7 +27,7 @@ export class SubmitFormPage implements OnInit {
 
   submitFormContent: SubmitFormContent = {
     title: '',
-    referenceForms_ids: '',
+    referenceForms_ids: [],
     template_id: 0,
     viewer_emails: '',
     filler_email: '',
@@ -54,6 +54,7 @@ export class SubmitFormPage implements OnInit {
   selectRefForm(form: SearchResultReferenceForm) {
     if (this.hasSelectedRefForm(form)) return;
     this.selectedRefForms.push(form);
+    console.log('form', this.hasSelectedRefForm(form));
   }
 
   unselectRefForm(form: SearchResultReferenceForm) {
@@ -71,12 +72,7 @@ export class SubmitFormPage implements OnInit {
   }
 
   submitForm() {
-    // this.api.jwtPayload = {} as anys
-    // this.api.jwtPayload && (this.api.jwtPayload.id = +submitFormContent.creatorId)
-    // this.submitFormContent.title = submitFormContent.title
-    // this.templateId = submitFormContent.templateId
-    // this.submitFormContent.fillerId = submitFormContent.fillerId
-    // submitFormContent.viewers.email = submitFormContent.viewers.email
+    this.selectedRefForms.concat();
     this.formService.submitForm(this.submitFormContent);
     console.log(this.submitFormContent);
   }

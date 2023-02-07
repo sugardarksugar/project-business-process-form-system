@@ -8,12 +8,19 @@
 </ion-header>
 
 <ion-content>
-
+<ion-list>
+<ion-item *ngFor="let referenceForm of referenceForms">
+  {{referenceForm.form_id}}
+  <ion-item *ngFor ="let refField of referenceForm.field">
+    {{refField.label}} + {{refField.content}}
+  </ion-item>
+</ion-item>
+</ion-list>
   <ion-list>
     <ion-item *ngFor="let field of fields">
       <ion-label> {{field.label+':'}} </ion-label>
       <ion-input
-        *ngIf="(field.type === 'text' || field.type === 'date' || field.type==='time') && this.permission==='filler' "
+        *ngIf="(field.type === 'text' || field.type === 'date' || field.type==='time'||field.type==='checkbox') && this.permission==='filler' "
         [type]="field.type"
         [(ngModel)]="field.content"
       ></ion-input>

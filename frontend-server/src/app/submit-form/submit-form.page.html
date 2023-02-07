@@ -54,7 +54,7 @@
   <ion-list>
     <ion-item hidden>
       <ion-label position="floating">Reference Form Template:</ion-label>
-      <ion-input readonly type="number" [(ngModel)]='submitFormContent. referenceForms_ids' ></ion-input>
+      <ion-input readonly type="string" [(ngModel)]='submitFormContent.referenceForms_ids' ></ion-input>
       <ion-button slot="end">clear</ion-button>
     </ion-item>
     <ion-list-header>
@@ -76,14 +76,13 @@
       <ion-label position="floating">Search Reference Form Title</ion-label>
       <ion-input type="text" [(ngModel)]= 'referenceFormName' (ionChange)="searchReferenceFormsByTitle()" ></ion-input>
     </ion-item>
-    <ion-list *ngIf="searchReferenceResult && !submitFormContent.referenceForms_ids">
+    <ion-list *ngIf="searchReferenceResult?.referenceForms">
       <ion-item
-      *ngFor="let referenceForm of searchReferenceResult.referenceForms"
+      *ngFor="let referenceForm of searchReferenceResult?.referenceForms"
       [hidden]="hasSelectedRefForm(referenceForm)"
       >
         <ion-label>
           #{{ referenceForm.id}}: {{ referenceForm.submitted_title}}
-
         </ion-label>
         <ion-button  slot="end" (click)="selectRefForm(referenceForm)">
           select
@@ -94,12 +93,9 @@
       </ion-item>
     </ion-list>
   </ion-list>
-
-
   <ion-list>
     <ion-button (click)="submitForm()">
       submit
     </ion-button>
   </ion-list>
-
 </ion-content>

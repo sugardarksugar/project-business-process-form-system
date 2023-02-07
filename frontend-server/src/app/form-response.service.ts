@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 
+export interface RefPlusFormDetails {
+  formDetails: FormDetails;
+  referenceForms: ReferenceForms;
+}
+
 export interface FormDetails {
   // referenceForm: referenceForms[]; // TODO
   fields: Field[];
   filler_id: number;
 }
 
-export interface referenceForms {
+export interface ReferenceForms {
   form_id: number;
   field: ReferenceFields[];
 }
@@ -45,7 +50,7 @@ export interface FilledForms {
 export class FormResponseService {
   constructor(public api: ApiService) {}
 
-  getFormDetails(id: number, cb: (json: FormDetails) => void) {
+  getFormDetails(id: number, cb: (json: RefPlusFormDetails) => void) {
     this.api.get(`/forms/${id}`, {}, cb);
   }
 
