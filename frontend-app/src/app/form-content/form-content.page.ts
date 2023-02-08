@@ -24,8 +24,6 @@ export class FormContentPage implements OnInit {
   filler_id?: number;
   referenceForms: ReferenceForm[] = [];
 
-  ready_to_submit = false;
-
   get permission(): 'filler' | 'viewer' {
     return this.api.jwtPayload?.id == this.filler_id ? 'filler' : 'viewer';
   }
@@ -76,21 +74,17 @@ export class FormContentPage implements OnInit {
     });
   }
 
-  saveDraft(cb?: () => any) {
+  saveDraft() {
     this.formResponseService.saveDraft(
       this.form_id,
       this.fields.map((field) => ({
         field_id: field.field_id,
         content: field.content || '',
       })),
-      cb
+      () => {
+        this.api.showSuccess('Saved Draft');
+      }
     );
-  }
-
-  submitForm() {
-    this.saveDraft(() => {
-      this.ready_to_submit = true;
-    });
   }
 
   async ngOnInit() {

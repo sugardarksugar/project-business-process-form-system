@@ -74,11 +74,8 @@ export class SubmitFormPage implements OnInit {
   }
 
   submitForm() {
-    if (!!this.selectedRefForms) {
-      for (let referenceForms_id of this.selectedRefForms) {
-        this.submitFormContent.referenceForms_ids.push(referenceForms_id.id);
-        this.formService.submitForm(this.submitFormContent);
-      }
+    for (let referenceForms_id of this.selectedRefForms) {
+      this.submitFormContent.referenceForms_ids.push(referenceForms_id.id);
     }
     this.formService.submitForm(this.submitFormContent);
   }

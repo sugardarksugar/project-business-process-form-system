@@ -55,20 +55,23 @@ order by field.order asc
 
     let filler_id = form?.filler_id;
 
-    let fields = await this.knex
-      .where("form.id", form_id)
-      .from("form")
-      .innerJoin("template", "template.id", "form.template_id")
-      .innerJoin("field", "field.template_id", "form.template_id")
-      .leftJoin("form_response", "form_response.field_id", "field.id")
-      .select(
-        "field.id as field_id",
-        "field.label",
-        "field.type",
-        "field.order",
-        "form_response.content"
-      )
-      .orderBy("field.order", "asc");
+    let result = await this.knex.raw(
+      /* sql */ `
+SELECT field.id as field_id,
+    field.label,
+    field.type,
+    field.order,
+    form_response.content
+from form
+    inner join field on field.template_id = form.template_id
+    left join form_response on form_response.field_id = field.id
+    and form_response.form_id = form.id
+where form.id = ?
+order by field.order asc
+`,
+      [form_id]
+    );
+    let fields = result.rows;
     console.log(fields);
 
     return {
