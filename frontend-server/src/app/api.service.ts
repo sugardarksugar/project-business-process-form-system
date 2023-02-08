@@ -15,6 +15,7 @@ export class ApiService {
   constructor(public toastCtrl: ToastController) {}
 
   apiOrigin = 'http://localhost:8100';
+  // apiOrigin = 'https://backend.felixhk.com';
 
   async showError(message: string) {
     let toast = await this.toastCtrl.create({

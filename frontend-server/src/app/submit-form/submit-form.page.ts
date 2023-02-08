@@ -63,6 +63,8 @@ export class SubmitFormPage implements OnInit {
   }
 
   hasSelectedRefForm(form: SearchResultReferenceForm) {
+    console.log(this.selectedRefForms);
+
     return this.selectedRefForms.some((f) => f.id == form.id);
   }
 
@@ -72,9 +74,13 @@ export class SubmitFormPage implements OnInit {
   }
 
   submitForm() {
-    this.selectedRefForms.concat();
+    if (!!this.selectedRefForms) {
+      for (let referenceForms_id of this.selectedRefForms) {
+        this.submitFormContent.referenceForms_ids.push(referenceForms_id.id);
+        this.formService.submitForm(this.submitFormContent);
+      }
+    }
     this.formService.submitForm(this.submitFormContent);
-    console.log(this.submitFormContent);
   }
 
   ngOnInit() {}

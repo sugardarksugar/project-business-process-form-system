@@ -88,9 +88,12 @@ export class FormService {
 
     if (submitForm.referenceForms_ids) {
       for (let referenceForm_id of submitForm.referenceForms_ids) {
-        await this.knex.insert({
-          reference_form_id: referenceForm_id,
-        });
+        await this.knex
+          .insert({
+            form_id: form_id,
+            reference_form_id: referenceForm_id,
+          })
+          .into("form_reference");
       }
     }
 

@@ -8,15 +8,17 @@
 </ion-header>
 
 <ion-content>
-<ion-list>
-<ion-item *ngFor="let referenceForm of referenceForms">
-  {{referenceForm.form_id}}
-  <ion-item *ngFor ="let refField of referenceForm.field">
-    {{refField.label}} + {{refField.content}}
-  </ion-item>
-</ion-item>
-</ion-list>
+  <ion-list *ngFor="let refForm of refForms">
+    <ion-item-divider color="secondary">
+      Ref Form ID: {{refForm.form_id}}
+    </ion-item-divider>
+    <ion-item *ngFor="let field of refForm.fields">
+      <ion-label> {{field.label}}: {{field.content}} </ion-label>
+    </ion-item>
+  </ion-list>
+
   <ion-list>
+    <ion-item-divider color="primary"> Filling Form: </ion-item-divider>
     <ion-item *ngFor="let field of fields">
       <ion-label> {{field.label+':'}} </ion-label>
       <ion-input
@@ -24,21 +26,20 @@
         [type]="field.type"
         [(ngModel)]="field.content"
       ></ion-input>
-      <!-- <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox> -->
+      <ion-checkbox *ngIf="field.type === 'checkbox'"></ion-checkbox>
     </ion-item>
   </ion-list>
 
-  <ion-button *ngIf="this.permission==='filler'" (click)="saveDraft()">Save Draft</ion-button>
+  <ion-button *ngIf="this.permission==='filler'" (click)="saveDraft()"
+    >Save Draft</ion-button
+  >
 
-
-
-  <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()">Submit</ion-button>
-
+  <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()"
+    >Submit</ion-button
+  >
 
   <ng-container *ngIf="ready_to_submit">
-    <ion-list-header>
-      Create another form for next step
-    </ion-list-header>
+    <ion-list-header> Create another form for next step </ion-list-header>
 
     <ion-item *ngIf=" this.permission==='filler' ">
       <ion-label position="floating">Title</ion-label>
@@ -82,14 +83,15 @@
     >
       <ion-item *ngFor="let form of searchResult.forms">
         <ion-label> #{{form.id}}: {{form.name}} </ion-label>
-        <ion-button (click)="selectedForm(form)" slot="end"> select </ion-button>
+        <ion-button (click)="selectedForm(form)" slot="end">
+          select
+        </ion-button>
         <ion-button slot="end"> preview </ion-button>
       </ion-item>
-    </ion-list>  
+    </ion-list>
 
-
-  <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()">Invite Recipients</ion-button>
-
+    <ion-button *ngIf=" this.permission==='filler'" (click)="submitForm()"
+      >Invite Recipients</ion-button
+    >
   </ng-container>
-
 </ion-content>

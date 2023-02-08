@@ -3,21 +3,20 @@ import { ApiService } from './api.service';
 
 export interface RefPlusFormDetails {
   formDetails: FormDetails;
-  referenceForms: ReferenceForms;
+  referenceForms: ReferenceForm[];
 }
 
 export interface FormDetails {
-  // referenceForm: referenceForms[]; // TODO
   fields: Field[];
   filler_id: number;
 }
 
-export interface ReferenceForms {
+export interface ReferenceForm {
   form_id: number;
-  field: ReferenceFields[];
+  fields: ReferenceField[];
 }
 
-export interface ReferenceFields {
+export interface ReferenceField {
   field_id: number;
   label: string;
   type: string;

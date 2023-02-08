@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   FormResponseService,
   Field,
-  ReferenceForms,
-  RefPlusFormDetails,
+  ReferenceForm,
 } from '../form-response.service';
 import {
   FormService,
@@ -21,9 +20,9 @@ import {
 })
 export class FormContentPage implements OnInit {
   form_id = +this.route.snapshot.paramMap.get('id')!;
-  referenceForms: ReferenceForms[] = [];
   fields: Field[] = [];
   filler_id?: number;
+  referenceForms: ReferenceForm[] = [];
 
   ready_to_submit = false;
 
@@ -42,6 +41,8 @@ export class FormContentPage implements OnInit {
   };
 
   templateName = '';
+
+  refForms = [] as any;
 
   constructor(
     public api: ApiService,
@@ -68,11 +69,10 @@ export class FormContentPage implements OnInit {
     if (!id) return;
     this.formResponseService.getFormDetails(id, (json) => {
       console.log(json);
-      console.log(json.formDetails);
       this.fields = json.formDetails.fields;
-      console.log(json.referenceForms);
-      console.log(this.fields);
       this.filler_id = json.formDetails.filler_id;
+      this.refForms = json.referenceForms;
+      console.log('this.refForms', this.refForms);
     });
   }
 
